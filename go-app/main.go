@@ -64,7 +64,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/tasks/:id", handleGetTask)
 	r.GET("/tasks/", handleGetTasks)
-	r.PUT("/tasks/", handleCreateTask)
-	r.POST("/tasks/", handleUpdateTask)
+	r.POST("/tasks/", handleCreateTask)
+	r.PUT("/tasks/", handleUpdateTask)
 	r.Run() // listen and serve on 0.0.0.0:8080
 }
