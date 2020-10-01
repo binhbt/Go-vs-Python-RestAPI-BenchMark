@@ -23,7 +23,9 @@ class TestList(Resource):
         db = client['test']
         posts = db['posts']
         thing = posts.find_one({'_id': ObjectId(id) })
-        return {"code":0, "message":"ok", "title":str(thing['title']), "content":thing['content']}
+        if thing:
+            return {"code":0, "message":"ok", "title":str(thing['title']), "content":thing['content']}
+        return {"code":1, "message":"not found"}
 
     @api.response(201, 'User successfully created.')
     @api.doc('create a new user')
