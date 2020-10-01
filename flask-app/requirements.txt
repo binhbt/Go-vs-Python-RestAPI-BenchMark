@@ -1,0 +1,27 @@
+Flask-Bcrypt==0.7.1
+flask-restplus==0.12.1
+Flask-Migrate==2.5.2
+PyJWT==1.7.1
+Flask-Script==2.0.6
+Flask-SQLAlchemy==2.3.2
+Flask-Testing==0.7.1
+greenlet==0.4.12
+gunicorn==19.7.1
+psycopg2==2.7.3.2
+celery==4.3.0
+honcho==1.0.1
+
+# monitor
+slacker-log-handler==1.7.1
+flower==0.9.3
+
+# TODO: separate this file for multiple environment
+# dev
+pylint-flask==0.6
+Flask-Cors==3.0.8
+watchdog
+Flask-Mail==0.9.1
+redis==3.3.11
+Werkzeug==0.16.0
+cerberus
+pymongo

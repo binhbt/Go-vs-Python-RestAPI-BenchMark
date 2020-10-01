@@ -1,0 +1,58 @@
+version: "3.3"
+
+services:
+    go-app:
+        restart: always
+        build:
+            context: .
+            dockerfile: go-app/Dockerfile
+        image: leo/go-app:0.1.0
+        depends_on:
+            - mongo-db
+        networks:
+            - internal-network
+        hostname: go-app
+        env_file: dev.env       
+        ports:
+            - "8090:8080" 
+    mongo-db:
+        restart: always
+        image: mongo:latest
+        command: mongod --auth
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: test
+            MONGO_INITDB_ROOT_PASSWORD: test
+            MONGO_INITDB_DATABASE: test
+        volumes:
+            - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        # ports:
+        #     - "27017:27017"
+        networks:
+            - internal-network
+
+    flask-app:
+        restart: always
+        build:
+            context: .
+            dockerfile: flask-app/Dockerfile
+        image: kidssy/flask-app:0.1.0
+        env_file: dev.env
+        depends_on:
+            - mongo-db
+        ports:
+            - 5001:5000
+        networks:
+            - internal-network
+        hostname: flask-app
+        volumes:
+            - ./flask-app:/build
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "100M"
+                max-file: "3"
+
+# volumes:
+#     mongo_data:
+networks: 
+    internal-network:
