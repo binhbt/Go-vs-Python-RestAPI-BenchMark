@@ -102,7 +102,7 @@ func Create(task *Task) (primitive.ObjectID, error) {
 	defer cancel()
 	defer client.Disconnect(ctx)
 	task.ID = primitive.NewObjectID()
-
+	log.Printf("task.ID : %v", task.ID)
 	result, err := client.Database("test").Collection("tasks").InsertOne(ctx, task)
 	if err != nil {
 		log.Printf("Could not create Task: %v", err)
