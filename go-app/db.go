@@ -64,7 +64,7 @@ func getConnection1() (*mongo.Client, context.Context, context.CancelFunc) {
 		mongoClientInstance = &mongoClient{}
 		mongoClientInstance.c = c
 		mongoClientInstance.ctx = ctx
-		mongoClientInstance.ctx = cancel
+		mongoClientInstance.cancel = cancel
 	}
 	return mongoClientInstance.c, mongoClientInstance.ctx, mongoClientInstance.cancel
 }
