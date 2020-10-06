@@ -21,14 +21,6 @@ const (
 	connectionStringTemplate = "mongodb://%s:%s@%s"
 )
 
-type mongoClient struct {
-	c      *mongo.Client
-	ctx    context.Context
-	cancel context.CancelFunc
-}
-
-var mongoClientInstance *mongoClient
-
 // GetConnection Retrieves a client to the MongoDB
 func getConnection() (*mongo.Client, context.Context, context.CancelFunc) {
 	username := os.Getenv("MONGODB_USERNAME")
@@ -57,16 +49,6 @@ func getConnection() (*mongo.Client, context.Context, context.CancelFunc) {
 
 	fmt.Println("Connected to MongoDB!")
 	return client, ctx, cancel
-}
-func getConnection1() (*mongo.Client, context.Context, context.CancelFunc) {
-	if mongoClientInstance == nil {
-		c, ctx, cancel := getConnection()
-		mongoClientInstance = &mongoClient{}
-		mongoClientInstance.c = c
-		mongoClientInstance.ctx = ctx
-		mongoClientInstance.cancel = cancel
-	}
-	return mongoClientInstance.c, mongoClientInstance.ctx, mongoClientInstance.cancel
 }
 
 // GetAllTasks Retrives all tasks from the db
@@ -116,11 +98,9 @@ func GetTaskByID(id primitive.ObjectID) (*Task, error) {
 
 //Create creating a task in a mongo
 func Create(task *Task) (primitive.ObjectID, error) {
-	client, ctx, cancel := getConnection1()
-	// defer cancel()
-	// defer client.Disconnect(ctx)
-	log.Printf("task.ctx : %v", ctx)
-	log.Printf("task.cancel : %v", cancel)
+	client, ctx, cancel := getConnection()
+	defer cancel()
+	defer client.Disconnect(ctx)
 	task.ID = primitive.NewObjectID()
 	log.Printf("task.ID : %v", task.ID)
 	result, err := client.Database("test").Collection("tasks").InsertOne(ctx, task)
