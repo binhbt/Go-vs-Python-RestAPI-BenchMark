@@ -119,6 +119,8 @@ func Create(task *Task) (primitive.ObjectID, error) {
 	client, ctx, cancel := getConnection1()
 	// defer cancel()
 	// defer client.Disconnect(ctx)
+	log.Printf("task.ctx : %v", ctx)
+	log.Printf("task.cancel : %v", cancel)
 	task.ID = primitive.NewObjectID()
 	log.Printf("task.ID : %v", task.ID)
 	result, err := client.Database("test").Collection("tasks").InsertOne(ctx, task)
