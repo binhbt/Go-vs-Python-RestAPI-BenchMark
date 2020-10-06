@@ -28,9 +28,6 @@ type mongoClient struct {
 }
 
 var mongoClient *mongoClient
-var (
-	client = &mongoClient{}
-)
 
 // GetConnection Retrieves a client to the MongoDB
 func getConnection() (*mongo.Client, context.Context, context.CancelFunc) {
@@ -64,11 +61,12 @@ func getConnection() (*mongo.Client, context.Context, context.CancelFunc) {
 func getConnection1() (*mongo.Client, context.Context, context.CancelFunc) {
 	if mongoClient == nil {
 		c, ctx, cancel := getConnection()
-		client.c = c
-		client.ctx = ctx
-		client.ctx = cancel
+		mongoClient = &mongoClient{}
+		mongoClient.c = c
+		mongoClient.ctx = ctx
+		mongoClient.ctx = cancel
 	}
-	return client.c, client.ctx, client.cancel
+	return mongoClient.c, mongoClient.ctx, mongoClient.cancel
 }
 
 // GetAllTasks Retrives all tasks from the db
