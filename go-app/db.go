@@ -117,8 +117,8 @@ func GetTaskByID(id primitive.ObjectID) (*Task, error) {
 //Create creating a task in a mongo
 func Create(task *Task) (primitive.ObjectID, error) {
 	client, ctx, cancel := getConnection1()
-	defer cancel()
-	defer client.Disconnect(ctx)
+	// defer cancel()
+	// defer client.Disconnect(ctx)
 	task.ID = primitive.NewObjectID()
 	log.Printf("task.ID : %v", task.ID)
 	result, err := client.Database("test").Collection("tasks").InsertOne(ctx, task)
