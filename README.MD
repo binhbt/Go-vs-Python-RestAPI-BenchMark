@@ -21,3 +21,7 @@ Avg: 2402ms
 Min: 55ms  
 Max: 6896ms  
 Fail: 2%
+
+  
+#Docker swarm  
+`docker stack deploy -c docker-compose.yml -c docker-compose.swarm.yml test`  
